@@ -37,7 +37,6 @@ class TestARAOntology():
 
     def test_tree_query(self, araont_object):
 
-        import pdb; pdb.set_trace()
         roi = araont_object.query_tree(528)
 
         assert(roi['id'] == 528)
