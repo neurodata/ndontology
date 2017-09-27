@@ -14,6 +14,8 @@
 
 import pytest
 from datetime import datetime
+import json
+from jsondiff import diff
 
 from araontology import ARAOntology
 
@@ -23,11 +25,11 @@ def araont_object():
     araont = ARAOntology ( "atlases", "ara", "mongodb://localhost:27017" )
     yield araont
 
+
 class TestARAOntology():
-
-    def test_stabbing_query(self, araont_object):
+    
+    def test_id_query(self, araont_object):
         """Query for single fields"""
-
         roi = araont_object.query_by_id(1000) 
         assert(roi['id'] == 1000)
         assert(roi['name'] == 'extrapyramidal fiber systems')
@@ -35,15 +37,32 @@ class TestARAOntology():
         roi = araont_object.query_by_id(997) 
         assert(roi['children'] == [8, 1009, 73, 1024, 304325711])
 
-    def test_tree_query(self, araont_object):
+    def test_atlas_id_query(self, araont_object):
+        """Query for single fields"""
+        roi = araont_object.query_by_atlas_id(253) 
+        assert(roi['atlas_id'] == 253)
+        assert(roi['name'] == 'Pontine central gray')
 
-        roi = araont_object.query_tree(528)
+    def test_descendants(self, araont_object):
+        "Query subtree"
+        roi = araont_object.descendants(528)
 
         assert(roi['id'] == 528)
         assert(10716 in roi['descendants'])
         assert(len(roi['depth']) == 80)
 
-        
+    def test_name_tree(self, araont_object):
+        "Tree hierarchy for d3js"""
+        roi = araont_object.name_tree(528)
+        import pdb; pdb.set_trace()
 
-
-        
+    def test_rebuild(self, araont_object):
+        """Rebuild the same file as input"""
+        roi = araont_object.ara_ontology() 
+        fp = open("scripts/ara.json")
+        oldjsons = json.dumps(json.load(fp)['msg'][0])
+        newjsons = json.dumps(roi[0])
+        assert(oldjsons== newjsons)
+      
+#        assert(roi[0]['id'] == oldjson['msg'][0]['id'])
+#        print( diff(roi[0],oldjson['msg'][0]) )
