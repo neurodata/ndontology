@@ -16,6 +16,7 @@ import pytest
 from datetime import datetime
 import json
 from jsondiff import diff
+from pymongo import MongoClient
 
 from araontology import ARAOntology
 
@@ -53,16 +54,18 @@ class TestARAOntology():
 
     def test_name_tree(self, araont_object):
         "Tree hierarchy for d3js"""
-        roi = araont_object.name_tree(528)
-        import pdb; pdb.set_trace()
+        name_tree = araont_object.name_tree(997)
+        # TODO compare against stored name tree
+        collection = MongoClient().atlases.ara_nametree 
+        store_tree = collection.find_one()
+        store_tree.pop("_id")
+        assert(json.dumps(name_tree) == json.dumps(store_tree))
+        
 
     def test_rebuild(self, araont_object):
         """Rebuild the same file as input"""
         roi = araont_object.ara_ontology() 
-        fp = open("scripts/ara.json")
+        fp = open("arascripts/ara.json")
         oldjsons = json.dumps(json.load(fp)['msg'][0])
         newjsons = json.dumps(roi[0])
         assert(oldjsons== newjsons)
-      
-#        assert(roi[0]['id'] == oldjson['msg'][0]['id'])
-#        print( diff(roi[0],oldjson['msg'][0]) )
