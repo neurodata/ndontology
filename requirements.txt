@@ -1,5 +1,4 @@
 jsondiff
-lmcommon
 py
 pymongo
 pytest
