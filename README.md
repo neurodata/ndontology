@@ -1,5 +1,7 @@
 # ndaraontology
-Manage/query/update a MongoDB that contains the Allen Research Atlas Ontology
+Manage/query/update a MongoDB in Docker that contains the 
+* Allen Research Atlas Ontology
+* Waxholm Rat Atlas.
 
 These tools run in python 3.5+, require a mongo database to talk to.
 You need to install a late version of mongo clients (3.4.9).
@@ -28,10 +30,10 @@ Run the unit tests
 
 A MongoDB instance running in docker that has the following databases:
 * Allen Reference Atlas
-    * atlases.ara -- DB of ROIs supports lookup by id, atlas_id, details, and descendants
-    * atlases.ara_nametree -- contains one object with hierarchical tree of all objects
+    * atlases.ara -- DB of ROIs supports lookup by id, atlas\_id, details, and descendants
+    * atlases.ara\_nametree -- contains one object with hierarchical tree of all objects
 * Waxholm Rat Atlas
     * atlases.whs -- DB of ROIs supports lookup by id, details, and descendants
-    * atlases.whs_nametree -- contains one object with hierarchical tree of all objects
+    * atlases.whs\_nametree -- contains one object with hierarchical tree of all objects
 
 Reference queries are in the unit tests and ontology.py/araonotology.py
