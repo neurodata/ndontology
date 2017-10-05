@@ -12,4 +12,4 @@ These are scripts to help import and query the ARA.
   * bulk ingest a database from ARA 
 ```mongoimport --db atlases --collection ara --drop --file ./ara.mongo.ingest.json``` 
  
-
+#### Limitations -- this assumes that mongo is on localhost.  Easy to fix.
